@@ -1,36 +1,121 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Avoita - Artificial VOIce Task Assistant
 
-## Getting Started
+Лендинг для продукта Avoita — голосового AI-ассистента, который выполняет телефонные звонки от имени пользователя для решения рутинных задач.
 
-First, run the development server:
+## 🚀 Быстрый старт
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. **Установите зависимости:**
+   ```bash
+   npm install
+   ```
+
+2. **Настройте переменные окружения:**
+   ```bash
+   cp .env.example .env.local
+   ```
+   Заполните `.env.local` реальными значениями Telegram Bot API.
+
+3. **Запустите сервер разработки:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Откройте [http://localhost:3000](http://localhost:3000)**
+
+## 🛠 Настройка Telegram Bot для уведомлений
+
+### 1. Создание бота через @BotFather
+- Перейдите к [@BotFather](https://t.me/botfather) в Telegram
+- Отправьте команду `/newbot`
+- Следуйте инструкциям для создания бота
+- Сохраните полученный токен (начинается с `123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11`)
+
+### 2. Получение Chat ID
+- Создайте приватный канал или группу в Telegram
+- Добавьте созданного бота как администратора
+- Отправьте любое сообщение в канал/группу
+- Получите Chat ID через API:
+  ```
+  https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
+  ```
+- Найдите `"chat":{"id":123456789}` в ответе
+
+### 3. Настройка переменных
+В файле `.env.local`:
+```
+TELEGRAM_BOT_TOKEN=ваш_токен_здесь
+TELEGRAM_CHAT_ID1=123456789
+TELEGRAM_CHAT_ID2=987654321
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📦 Структура проекта
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+├── app/
+│   ├── api/submit-lead/route.ts  # API для отправки лидов в Telegram
+│   ├── layout.tsx                # Главный layout
+│   └── page.tsx                  # Главная страница лендинга
+└── components/
+    ├── Hero.tsx                  # Hero-секция
+    ├── Features.tsx              # Особенности продукта
+    ├── HowItWorks.tsx            # Как это работает
+    ├── SubscriptionForm.tsx      # Форма подписки
+    └── Footer.tsx                # Футер
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🎨 Технологии
 
-## Learn More
+- **Next.js 14+** (App Router)
+- **React 19**
+- **TypeScript**
+- **Tailwind CSS** (v4)
+- **Framer Motion** (анимации)
+- **React Hook Form** + **Zod** (валидация форм)
+- **Telegram Bot API** (уведомления о лидах)
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Деплой на Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Добавление кода в существующий Vercel-проект
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Подключите репозиторий к Vercel:**
+   - В Vercel Dashboard нажмите "New Project"
+   - Выберите ваш Git-репозиторий
+   - Настройте параметры сборки (обычно авто-детект)
 
-## Deploy on Vercel
+2. **Настройте переменные окружения в Vercel:**
+   - В настройках проекта перейдите в "Environment Variables"
+   - Добавьте переменные из `.env.example`:
+     - `TELEGRAM_BOT_TOKEN`
+     - `TELEGRAM_CHAT_ID1`
+     - `TELEGRAM_CHAT_ID2`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Деплой:**
+   - Vercel автоматически соберет и задеплоит проект
+   - Проверьте форму подписки после деплоя
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Тестирование формы
+
+1. Заполните форму на лендинге
+2. Проверьте получение уведомления в Telegram
+3. Убедитесь, что success-сообщение отображается корректно
+
+## 📝 Особенности
+
+- **Responsive дизайн** с поддержкой темной/светлой темы
+- **Smooth scroll** навигация
+- **Анимации** с Framer Motion
+- **Валидация форм** на клиенте и сервере
+- **Отправка уведомлений** в Telegram
+- **SEO-friendly** структура
+
+## 🔧 Разработка
+
+- `npm run dev` - запуск dev-сервера
+- `npm run build` - сборка для продакшена
+- `npm run start` - запуск продакшен-сервера
+- `npm run lint` - проверка кода ESLint
+
+## 📄 Лицензия
+
+Все права защищены © 2026 Avoita
