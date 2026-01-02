@@ -11,11 +11,17 @@ export async function POST(request: NextRequest) {
     }
 
     const token = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId1 = process.env.TELEGRAM_CHAT_ID1;
-    const chatId2 = process.env.TELEGRAM_CHAT_ID2;
+    const chatIdsString = process.env.TELEGRAM_CHAT_IDS;
 
-    if (!token || !chatId1 || !chatId2) {
+    if (!token || !chatIdsString) {
       return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
+    }
+
+    // Parse comma-separated chat IDs into array
+    const chatIds = chatIdsString.split(',').map(id => id.trim()).filter(id => id.length > 0);
+
+    if (chatIds.length === 0) {
+      return NextResponse.json({ error: 'No valid chat IDs configured' }, { status: 500 });
     }
 
     // Initialize bot with polling disabled (we only send messages)
@@ -33,10 +39,14 @@ export async function POST(request: NextRequest) {
       }
     };
 
-    const [success1, success2] = await Promise.all([sendMessage(chatId1), sendMessage(chatId2)]);
+    // Send messages to all chat IDs
+    const results = await Promise.all(chatIds.map(chatId => sendMessage(chatId)));
 
-    if (!success1 || !success2) {
-      return NextResponse.json({ error: 'Failed to send notification' }, { status: 500 });
+    // Check if all messages were sent successfully
+    const allSuccessful = results.every(success => success);
+
+    if (!allSuccessful) {
+      return NextResponse.json({ error: 'Failed to send notification to some chats' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
