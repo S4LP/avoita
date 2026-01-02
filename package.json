@@ -1,5 +1,6 @@
 {
   "name": "avoita",
+  "description": "Artificial VOIce Task Assistant",
   "version": "0.1.0",
   "private": true,
   "scripts": {
