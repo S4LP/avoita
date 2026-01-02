@@ -38,9 +38,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.svg?v=1" type="image/svg+xml" />
+        <link rel="shortcut icon" href="/favicon.svg?v=1" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/favicon.svg?v=1" />
+        <meta name="msapplication-TileImage" content="/favicon.svg?v=1" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
