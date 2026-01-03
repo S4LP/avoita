@@ -34,10 +34,12 @@ export default function SubscriptionForm() {
   });
 
   const onSubmit = async (data: FormData) => {
+    console.log('Form submitted with data:', data);
     setIsSubmitting(true);
     setError('');
 
     try {
+      console.log('Sending request to /api/submit-lead');
       const response = await fetch('/api/submit-lead', {
         method: 'POST',
         headers: {
@@ -46,14 +48,20 @@ export default function SubscriptionForm() {
         body: JSON.stringify(data),
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+
       if (response.ok) {
+        console.log('Success! Setting success state');
         setIsSuccess(true);
         reset();
       } else {
         const errorData = await response.json();
+        console.log('Error response:', errorData);
         setError(errorData.error || 'Произошла ошибка');
       }
     } catch (err) {
+      console.error('Fetch error:', err);
       setError('Произошла ошибка при отправке');
     } finally {
       setIsSubmitting(false);

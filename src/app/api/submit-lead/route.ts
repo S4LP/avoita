@@ -3,17 +3,24 @@ import TelegramBot from 'node-telegram-bot-api';
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, phone, telegram, otherContact, preferredContact, monthlyPrice, message } = await request.json();
+    console.log('API route called');
+    const body = await request.json();
+    console.log('Request body:', body);
+    const { name, email, phone, telegram, otherContact, preferredContact, monthlyPrice, message } = body;
 
     // Basic validation
     if (!email) {
+      console.log('Email validation failed');
       return NextResponse.json({ error: 'Email is required' }, { status: 400 });
     }
 
     const token = process.env.TELEGRAM_BOT_TOKEN;
     const chatIdsString = process.env.TELEGRAM_CHAT_IDS;
 
+    console.log('Environment variables:', { token: !!token, chatIdsString });
+
     if (!token || !chatIdsString) {
+      console.log('Server configuration error');
       return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
     }
 
