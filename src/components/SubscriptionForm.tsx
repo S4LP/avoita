@@ -33,6 +33,8 @@ export default function SubscriptionForm() {
     resolver: zodResolver(schema),
   });
 
+  console.log({ errors });
+
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     setError('');
