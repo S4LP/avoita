@@ -12,8 +12,8 @@ const schema = z.object({
   phone: z.string().optional(),
   telegram: z.string().optional(),
   otherContact: z.string().optional(),
-  preferredContact: z.string().optional(),
-  monthlyPrice: z.string().optional(),
+  preferredContact: z.string().min(1, 'Выберите предпочитаемый метод связи'),
+  monthlyPrice: z.string().min(1, 'Укажите сумму, которую готовы платить'),
   message: z.string().optional(),
 });
 
@@ -33,7 +33,7 @@ export default function SubscriptionForm() {
     resolver: zodResolver(schema),
   });
 
-  console.log({ errors });
+
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
@@ -180,7 +180,7 @@ export default function SubscriptionForm() {
 
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
-              Предпочитаемый метод связи
+              Предпочитаемый метод связи *
             </label>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
@@ -200,6 +200,9 @@ export default function SubscriptionForm() {
                 </label>
               ))}
             </div>
+            {errors.preferredContact && (
+              <p className="text-red-500 text-sm mt-2">{errors.preferredContact.message}</p>
+            )}
           </div>
 
           <div className="mb-6">
@@ -224,6 +227,9 @@ export default function SubscriptionForm() {
                 </label>
               ))}
             </div>
+            {errors.monthlyPrice && (
+              <p className="text-red-500 text-sm mt-2">{errors.monthlyPrice.message}</p>
+            )}
           </div>
 
           <div className="mb-6">
